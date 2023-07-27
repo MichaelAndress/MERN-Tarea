@@ -1,27 +1,18 @@
-const { login, register, logout, verifyToken } = require("../controllers/auth.controller");
+const {
+    login,
+    register,
+    logout,
+} = require("../controllers/auth.controller");
 const { Router } = require("express");
-const { body } = require("express-validator");
-const { validarCampos } = require("../middlewares/validarCampos");
-const { validarToken } = require("../middlewares/validarToken")
+const { registerSchema, loginSchema } = require("../schemas/auth.schema");
+const { validarCamposZod } = require("../middlewares/validaCamposZod");
+const { validarAuth } = require("../middlewares/validarAuth");
+
 
 const router = Router();
 
-router.post(
-    "/register",
-    [
-        body("username", "el nombre es obligatorio")
-            .not()
-            .isEmpty()
-            .isLength({ min: 4 }),
-        body("email", "Email obligatorio").isEmpty().isEmail().normalizeEmail(),
-        body("password", "Password debe ser mayor a 4")
-            .isEmpty()
-            .isLength({ min: 4 }),
-    ],
-    register
-);
-router.post("/login", login);
-router.post("/logout", validarToken, logout);
-router.get("/profile", validarToken, verifyToken);
+router.post("/register", validarCamposZod(registerSchema), register);
+router.post("/login", validarCamposZod(loginSchema), login);
+router.post("/logout", validarAuth, logout);
 
 module.exports = router;

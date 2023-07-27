@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { response } = require('express')
 
-const validarToken = (req, res= response, next) => {
+const validarAuth = (req, res= response, next) => {
   try {
     const { token } = req.cookies;
     console.log(token)
@@ -22,5 +22,5 @@ const validarToken = (req, res= response, next) => {
   }
 };
 module.exports={
-    validarToken
+  validarAuth
 }
