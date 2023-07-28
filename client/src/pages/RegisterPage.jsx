@@ -1,24 +1,20 @@
-import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks/useAuth";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
-
+import {useForm} from "react-hook-form";
+import {useAuth} from "../hooks/useAuth";
+import {useSelector} from "react-redux";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const RegisterPage = () => {
-    const { register, handleSubmit } = useForm();
-    const { startRegister } = useAuth();
-    const { status } = useSelector((state)=>state.auth);
+    const {register, handleSubmit} = useForm();
+    const {startRegister} = useAuth();
+    const {status} = useSelector((state) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
-      if (status === true) {
-        navigate('/task')
-      }
-    },)
-    
-
+        if (status === true) {
+            navigate("/tasks");
+        }
+    });
 
     const onSubmit = handleSubmit(async (values) => {
         startRegister(values);
@@ -29,19 +25,19 @@ export const RegisterPage = () => {
             <form onSubmit={onSubmit}>
                 <input
                     type="text"
-                    {...register("username", { required: true })}
+                    {...register("username", {required: true})}
                     className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
                     placeholder="Username"
                 />
                 <input
                     type="email"
-                    {...register("email", { required: true })}
+                    {...register("email", {required: true})}
                     className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
                     placeholder="Email"
                 />
                 <input
                     type="password"
-                    {...register("password", { required: true })}
+                    {...register("password", {required: true})}
                     className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
                     placeholder="Password"
                 />
