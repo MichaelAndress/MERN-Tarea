@@ -11,7 +11,7 @@ export const RegisterPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (status === true) {
+        if (status === 'authenticated') {
             navigate("/tasks");
         }
     });

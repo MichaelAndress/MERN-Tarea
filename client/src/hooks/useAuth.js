@@ -1,34 +1,38 @@
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import calendarApi from "../api/auth";
-import {onLogin} from "../store/auth/authSlice";
+import { messageE, onLogin, clearMessage } from "../store/auth/authSlice";
 
 export const useAuth = () => {
     const dispatch = useDispatch();
 
-    const startRegister = async ({username, email, password}) => {
+    const startRegister = async ({ username, email, password }) => {
         try {
-            const {data} = await calendarApi.post("/auth/register", {
+            const { data } = await calendarApi.post("/auth/register", {
                 username,
                 email,
                 password,
             });
-            console.log(data);
-            console.log(data.email);
-            dispatch(onLogin({id: data.id, username: data.username}));
+            dispatch(onLogin({ id: data.id, username: data.username }));
         } catch (error) {
             console.log(error);
         }
     };
-    const startLogin = async ({username, password}) => {
+    const startLogin = async ({ username, password }) => {
         try {
-            const {data} = await calendarApi.post("/auth/login", {
+            const { data } = await calendarApi.post("/auth/login", {
                 username,
                 password,
             });
-            console.log(data);
-            dispatch(onLogin({id: data.id, username: data.username}));
+            dispatch(onLogin({ id: data.id, username: data.username }));
         } catch (error) {
-            console.log(error);
+            const err = [error.response.data?.message]
+            err.map((e)=>{
+                dispatch(messageE(e));
+
+            })
+            setTimeout(() => {
+                dispatch(clearMessage());
+            }, 3000);
         }
     };
 

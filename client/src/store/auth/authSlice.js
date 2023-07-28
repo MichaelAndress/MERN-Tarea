@@ -3,16 +3,23 @@ import { createSlice } from '@reduxjs/toolkit';
 export const authSlice = createSlice({
     name:'auth',
     initialState:{
-        status:false,
+        status:'cheking',
         user:{},
+        messageError:''
     },
     reducers:{
         onLogin:(state, {payload})=>{
-            state.status = true;
+            state.status = 'authenticated';
             state.user = payload;
-            console.log(state.user)
+        },
+        messageE:(state,{payload})=>{
+            state.messageError = payload
+        },
+        clearMessage:(state)=>{
+            state.messageError=''
         }
+
     }
 });
 
-export const { onLogin } = authSlice.actions;
+export const { onLogin, messageE, clearMessage } = authSlice.actions;
