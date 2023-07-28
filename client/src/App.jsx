@@ -1,8 +1,19 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { RegisterPage } from './pages/RegisterPage';
+import { LoginPage } from './pages/LoginPage';
+
 export const App = () => {
     return (
-        <>
-            <div className="text-4xl font-bold">App</div>
-            <div className="">hola</div>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path='/' element={<h1>Hola</h1>}/>
+                <Route path='/login' element={<LoginPage />}/>
+                <Route path='/register' element={<RegisterPage />}/>
+                <Route path='/tasks' element={<h1>Hola</h1>}/>
+                <Route path='/add-task' element={<h1>Hola</h1>}/>
+                <Route path='/task/:id' element={<h1>Hola</h1>}/>
+                <Route path='/profile' element={<h1>Hola</h1>}/>
+            </Routes>
+        </BrowserRouter>
     );
 };
