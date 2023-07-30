@@ -1,26 +1,42 @@
-const jwt = require("jsonwebtoken");
-const { response } = require('express')
+const { response } = require('express');
+const jwt = require('jsonwebtoken');
 
-const validarAuth = (req, res= response, next) => {
-  try {
-    const { token } = req.cookies;
-    console.log(token)
-    if (!token)
-      return res
-        .status(401)
-        .json({ message: "No token, authorization denied" });
+const validarAuth = ( req, res = response, next ) => {
 
-    jwt.verify(token, 'secret123', (error, user) => {
-      if (error) {
-        return res.status(401).json({ message: "Token is not valid" });
-      }
-      req.user = user;
-      next();
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+    // x-token headers
+    const token = req.header('x-token');
+
+    if ( !token ) {
+        return res.status(401).json({
+            ok: false,
+            msg: 'No hay token en la petición'
+        });
+    }
+
+    try {
+        
+        const { id, username } = jwt.verify(
+            token,
+            'secret123'
+        );
+
+        req.id = id;
+        req.username = username;
+
+
+    } catch (error) {
+        return res.status(401).json({
+            ok: false,
+            msg: 'Token no válido'
+        });
+    }
+
+
+
+    next();
+}
+
+
 module.exports={
   validarAuth
 }
