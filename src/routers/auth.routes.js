@@ -1,7 +1,6 @@
 const {
     login,
     register,
-    logout,
     verifyToken,
 } = require("../controllers/auth.controller");
 const { Router } = require("express");
@@ -14,8 +13,7 @@ const router = Router();
 
 router.post("/register", validarCamposZod(registerSchema), register);
 router.post("/login", validarCamposZod(loginSchema), login);
-router.get("/verify", validarAuth, verifyToken);
-// router.post("/verify", validarAuth, logout);
+router.get("/verify/", validarAuth, verifyToken);
 
 
 module.exports = router;

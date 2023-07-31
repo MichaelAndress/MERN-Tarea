@@ -12,7 +12,7 @@ const { crearTaskSchema } = require("../schemas/task.schema");
 
 const router = Router();
 
-router.get("/", validarAuth, getTask);
+router.get("/",validarAuth, getTask);
 router.get("/:id", validarAuth, getOneTask);
 router.post("/", validarAuth, createTask);
 router.delete("/:id", validarAuth, validarCamposZod(crearTaskSchema), deleteTask);

@@ -7,16 +7,15 @@ import { TaskFormPage } from "./pages/TaskFormPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import Cookies from 'js-cookie'
+import { useAuth } from "./hooks/useAuth";
+
 
 export const App = () => {
     const { status } = useSelector((state) => state.auth);
-    console.log(status);
+    const {startVerify} = useAuth();
+    
     useEffect(() => {
-        const cookies = Cookies.get();
-      if (cookies.token) {
-        console.log(cookies.token)
-      }
+        startVerify();
     }, [])
     
 

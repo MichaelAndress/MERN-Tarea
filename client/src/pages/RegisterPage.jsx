@@ -1,20 +1,9 @@
 import {useForm} from "react-hook-form";
 import {useAuth} from "../hooks/useAuth";
-import {useSelector} from "react-redux";
-import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
 
 export const RegisterPage = () => {
     const {register, handleSubmit} = useForm();
     const {startRegister} = useAuth();
-    const {status} = useSelector((state) => state.auth);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (status === 'authenticated') {
-            navigate("/tasks");
-        }
-    });
 
     const onSubmit = handleSubmit(async (values) => {
         startRegister(values);

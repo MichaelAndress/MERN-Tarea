@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
     const {
@@ -11,14 +10,14 @@ export const LoginPage = () => {
         formState: { errors },
     } = useForm();
     const { startLogin } = useAuth();
-    const { status, messageError } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
+    const { messageError } = useSelector((state) => state.auth);
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        if (status === 'authenticated') {
-            navigate("/tasks");
-        }
-    });
+    // useEffect(() => {
+    //     if (status === 'authenticated') {
+    //         navigate("/tasks");
+    //     }
+    // });
 
     const onSubmit = handleSubmit((data) => {
         startLogin(data);

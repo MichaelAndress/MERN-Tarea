@@ -22,6 +22,7 @@ const validarAuth = ( req, res = response, next ) => {
 
         req.id = id;
         req.username = username;
+        // console.log(req.id)
 
 
     } catch (error) {

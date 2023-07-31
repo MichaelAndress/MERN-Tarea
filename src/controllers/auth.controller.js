@@ -20,7 +20,7 @@ const register = async (req, res = response) => {
         await user.save();
 
         // !TOKEN
-        const token = await crearJWT({ id: user.id, usuario: user.username });
+        const token = await crearJWT({ id: user.id, username: user.username });
 
         res.cookie("token", token);
         res.json({
@@ -54,7 +54,7 @@ const login = async (req, res) => {
         }
         const token = await crearJWT({
             id: usuario.id,
-            usuario: usuario.username,
+            username: usuario.username,
         });
         res.cookie("token", token);
         res.json({
@@ -78,12 +78,13 @@ const verifyToken = async (req, res) => {
     
         res.json({
             ok: true,
-            id,
-            username,
+            id:id.id,
+            username:id.username,
             token,
         });
         
     } catch (error) {
+        console.log('fallo en verify')
         console.log(error)    
     }
 };
@@ -91,6 +92,5 @@ const verifyToken = async (req, res) => {
 module.exports = {
     login,
     register,
-    logout,
     verifyToken,
 };

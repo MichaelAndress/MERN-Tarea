@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import calendarApi from "../api/auth";
-import { messageE, onLogin, clearMessage } from "../store/auth/authSlice";
+import { messageE, onLogin, clearMessage, onLogout } from "../store/auth/authSlice";
 
 export const useAuth = () => {
     const dispatch = useDispatch();
@@ -12,6 +12,8 @@ export const useAuth = () => {
                 email,
                 password,
             });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({ id: data.id, username: data.username }));
         } catch (error) {
             console.log(error);
@@ -23,6 +25,8 @@ export const useAuth = () => {
                 username,
                 password,
             });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({ id: data.id, username: data.username }));
         } catch (error) {
             const err = [error.response.data?.message]
@@ -35,9 +39,30 @@ export const useAuth = () => {
             }, 3000);
         }
     };
+    const startVerify =async()=>{
+        const token = localStorage.getItem('token');
+        if (!token) {
+          return console.log('no hay token');
+        }
+        try {
+          const { data } = await calendarApi.get('/auth/verify');
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('token-init-date', new Date().getTime());
+          dispatch(onLogin({ id: data.id, username: data.username }));
+    
+        } catch (error) {
+          localStorage.clear();
+          dispatch(onLogout());
+        }
+    }
+    const startLogout=()=>{
+        localStorage.clear();
+    }
 
     return {
         startRegister,
         startLogin,
+        startVerify,
+        startLogout
     };
 };

@@ -17,9 +17,13 @@ export const authSlice = createSlice({
         },
         clearMessage:(state)=>{
             state.messageError=''
+        },
+        onLogout:(state)=>{
+            state.status='cheking'
+            state.user={}
         }
 
     }
 });
 
-export const { onLogin, messageE, clearMessage } = authSlice.actions;
+export const { onLogin, messageE, clearMessage, onLogout } = authSlice.actions;

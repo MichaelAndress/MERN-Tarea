@@ -1,43 +1,49 @@
 const Task = require("../models/task.model");
 
 const getTask = async (req, res) => {
-    const task = await Task.find({
-        user:req.user.id
-    }).populate('user');
-    res.json({
-        task,
-    });
-};
-const getOneTask = async (req, res) => {    
+    // console.log(req.id)
     try {
-        const task = await Task.findById( req.params.id );
+        const tasks = await Task.find({ user: req.id.id }).populate("user");
+        res.json(tasks);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+const getOneTask = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
         if (!task) {
             res.status(404).json({
-                msg: "Error al encontrar la tarea",
+                message: "Error al encontrar la tarea",
             });
         }
         res.json({
             task,
         });
-        
     } catch (error) {
         res.status(500).json({
-            msg: error.message
-        })
+            message: error.message,
+        });
     }
 };
 const createTask = async (req, res) => {
     const { title, description, date } = req.body;
-    const newTask = new Task({
-        title,
-        description,
-        date,
-        user: req.user.id
-    });
-    const saveTask = await newTask.save();
-    res.json({
-        saveTask,
-    });
+    try {
+        const newTask = new Task({
+            title,
+            description,
+            date,
+            user: req.id.id,
+        });
+        const saveTask = await newTask.save();
+        res.json({
+            saveTask,
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+        });
+    }
 };
 const updateTask = async (req, res) => {
     const task = await Task.findByIdAndUpdate(req.params, req.body, {
@@ -45,7 +51,7 @@ const updateTask = async (req, res) => {
     });
     if (!task) {
         return res.status(404).json({
-            msg: "tarea no encontrada",
+            message: "tarea no encontrada",
         });
     }
     res.json({
@@ -54,14 +60,14 @@ const updateTask = async (req, res) => {
 };
 const deleteTask = async (req, res) => {
     const { id } = req.params;
-    const task = await Task.findByIdAndDelete( id );
+    const task = await Task.findByIdAndDelete(id);
     if (!task) {
         res.status(404).json({
-            msg: "Error al encontrar la tarea",
+            message: "Error al encontrar la tarea",
         });
     }
     res.status(204).json({
-        msg: "Tarea Eliminada",
+        message: "Tarea Eliminada",
     });
 };
 
