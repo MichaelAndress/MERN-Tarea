@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
-import { HomePage } from "./pages/Homepage";
 import { TaskPage } from "./pages/TaskPage";
 import { TaskFormPage } from "./pages/TaskFormPage";
 import { ProfilePage } from "./pages/ProfilePage";
@@ -24,9 +23,8 @@ export const App = () => {
             <Routes>
                 {status === "cheking" ? (
                     <>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/*" element={<Navigate to="/" />} />
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/*" element={<Navigate to="/login" />} />
                         <Route path="/register" element={<RegisterPage />} />
                     </>
                 ) : (

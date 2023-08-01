@@ -60,15 +60,23 @@ const updateTask = async (req, res) => {
 };
 const deleteTask = async (req, res) => {
     const { id } = req.params;
-    const task = await Task.findByIdAndDelete(id);
-    if (!task) {
-        res.status(404).json({
-            message: "Error al encontrar la tarea",
+    console.log(id)
+    try {
+        const task = await Task.findByIdAndDelete(id);
+        if (!task) {
+            res.status(404).json({
+                message: "Error al encontrar la tarea",
+            });
+        }
+        res.status(204).json({
+            message: "Tarea Eliminada",
         });
+        
+    } catch (error) {
+        res.status(500).json({
+            error
+        })
     }
-    res.status(204).json({
-        message: "Tarea Eliminada",
-    });
 };
 
 module.exports = {

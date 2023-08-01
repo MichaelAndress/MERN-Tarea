@@ -14,8 +14,8 @@ const router = Router();
 
 router.get("/",validarAuth, getTask);
 router.get("/:id", validarAuth, getOneTask);
-router.post("/", validarAuth, createTask);
-router.delete("/:id", validarAuth, validarCamposZod(crearTaskSchema), deleteTask);
+router.post("/", validarAuth,  validarCamposZod(crearTaskSchema), createTask);
+router.delete("/:id", validarAuth, deleteTask);
 router.put("/:id", validarAuth, updateTask);
 
 module.exports = router;

@@ -19,8 +19,9 @@ export const authSlice = createSlice({
             state.messageError=''
         },
         onLogout:(state)=>{
-            state.status='cheking'
-            state.user={}
+            state.status='cheking';
+            state.user={};
+            state.messageError='';
         }
 
     }

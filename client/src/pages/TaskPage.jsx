@@ -4,19 +4,24 @@ import { useTask } from "../hooks/useTask";
 import { useSelector } from "react-redux";
 import { useAuth } from "../hooks/useAuth";
 
+
 export const TaskPage = () => {
-    const { getTask } = useTask();
-    const { startLogout}=useAuth();
+    const { getTask, onDeleteTask } = useTask();
+    const { startLogout } = useAuth();
     const { tasks } = useSelector((state) => state.task);
 
     useEffect(() => {
         getTask();
     }, []);
 
-    const logout=()=>{
+    const logout = () => {
         startLogout();
-        location.reload()
-    }
+        location.reload();
+    };
+    const handlerDelete = (id) => {
+        console.log(id);
+        onDeleteTask(id);
+    };
 
     return (
         <div>
@@ -27,7 +32,12 @@ export const TaskPage = () => {
                 >
                     Add Task
                 </Link>
-                <button onClick={logout} className="p-2 bg-slate-400 rounded-md">Logout</button>
+                <button
+                    onClick={logout}
+                    className="p-2 bg-slate-400 rounded-md"
+                >
+                    Logout
+                </button>
 
                 {tasks.length === 0 && (
                     <div className="flex justify-center items-center p-10">
@@ -43,15 +53,20 @@ export const TaskPage = () => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-                {tasks.map((task) => (
+                {tasks&&tasks.map((task) => (
                     <div
-                        key={task.id}
+                        key={task._id}
                         className="bg-zinc-800 max-w-md w-full p-10 rounded-md"
                     >
                         <header className="flex justify-between">
-                            <h1 className="text-2xl font-bold">{task.title.toUpperCase()}</h1>
+                            <h1 className="text-2xl font-bold">
+                                {task.title.toUpperCase()}
+                            </h1>
                             <div className="flex gap-x-2 items-center">
-                                <button className="bg-red-500 p-2 rounded-md">
+                                <button
+                                    className="bg-red-500 p-2 rounded-md"
+                                    onClick={() => handlerDelete(task._id)}
+                                >
                                     Delete
                                 </button>
                                 <button className="bg-green-500 p-2 rounded-md">
