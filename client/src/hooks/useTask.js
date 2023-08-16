@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { onTask, deleteTask, addTask } from "../store/auth/taskSlice";
+import { onTask, deleteTask, addTask, updateTask } from "../store/auth/taskSlice";
 import { useSelector } from "react-redux";
 import calendarApi from "../api/auth";
 
@@ -26,6 +26,15 @@ export const useTask = () => {
             console.log(error)
         }
     }
+    const onUpdateTask=async(task)=>{
+        try {
+            await calendarApi.put(`/task/${task.id}`, task)
+            dispatch(updateTask(task))
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     const onDeleteTask =async(id)=>{
         try {
             await calendarApi.delete(`/task/${id}`);
@@ -38,6 +47,7 @@ export const useTask = () => {
     return {
         getTask,
         onDeleteTask,
-        onAddTask
+        onAddTask,
+        onUpdateTask
     };
 };
